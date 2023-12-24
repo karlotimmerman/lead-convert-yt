@@ -1,0 +1,37 @@
+# Gitpod configuration file
+
+# Tasks to be executed when the Gitpod workspace starts
+tasks:
+  - name: Install pnpm and setup Node.js
+    init: |
+      wget -qO- https://get.pnpm.io/install.sh | sh
+      nvm install 20.10
+      nvm use 20.10
+  - name: System updates, package installations, and TypeScript debugging
+    init: |
+      sudo apt update && sudo apt upgrade -y
+      pnpm install
+      pnpm up
+      pnpm install next@13 react react-dom
+      tsc --build --sourcemap
+
+# Ports configuration for the development environment
+ports:
+  - port: 4444
+    onOpen: open-preview
+
+# Specify the Docker image to be used in this Gitpod workspace
+image:
+  file: .gitpod.Dockerfile
+
+# Vercel integration for Preview and Production environments
+# Note: Ensure Vercel CLI is installed and configured in the Docker image or in the init script
+vercel:
+  - name: Preview Environment
+    onPrebuild: vercel preview --token $VERCEL_TOKEN
+  - name: Production Environment
+    onDeploy: vercel --prod --token $VERCEL_TOKEN
+
+# add vscode extensions and create a new 
+
+# Other configurations can be added here (e.g., VSCode extensions)
